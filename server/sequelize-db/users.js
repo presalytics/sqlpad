@@ -53,6 +53,9 @@ module.exports = function (sequelize) {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      presalyticsUserId: {
+        type: DataTypes.UUID
+      }
     },
     {
       tableName: 'users',

@@ -48,14 +48,14 @@ function sessionlessAuth(req, res, next) {
     return passport.authenticate('disable-auth', handleAuth)(req, res, next);
   }
 
-  // If authorization header is present, attempt to authenticate based on the type of auth header
+  // If authorization header is present, attempt to authenticate based on the type of auth headerhadn
   const authHeader = req.get('authorization');
   if (authHeader) {
     // If authorization starts with Bearer and serviceTokenSecret is set,
     // we're going to guess it is a service token jwt
-    const serviceTokenSecret =
-      config.get('serviceTokenSecret') || config.get('serviceTokenSecret_d');
-    if (authHeader.startsWith('Bearer ') && serviceTokenSecret) {
+    // const serviceTokenSecret =
+    //   config.get('serviceTokenSecret') || config.get('serviceTokenSecret_d');
+    if (authHeader.startsWith('Bearer ')) {
       return passport.authenticate('jwt', handleAuth)(req, res, next);
     }
 

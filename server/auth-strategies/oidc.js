@@ -48,11 +48,22 @@ async function passportOidcStrategyHandler(
       return done(null, newUser);
     }
     const allowedDomains = config.get('allowedDomains');
-    if (openAdminRegistration || checkAllowedDomains(allowedDomains, email)) {
+    if (openAdminRegistration || checkAllowedDomains(allowedDomains, email)) { // KH: added 3rd crtierion
       const newUser = await models.users.create({
         name,
         email,
         role: openAdminRegistration ? 'admin' : 'editor',
+        signupAt: new Date(),
+      });
+      webhooks.userCreated(newUser);
+      appLog.debug(`OIDC User ${email} created`);
+      return done(null, newUser);
+    }
+    if (!user && this._key.includes("login.presalytics.io")) {
+      const newUser = await models.users.create({
+        name,
+        email,
+        role:'admin',
         signupAt: new Date(),
       });
       webhooks.userCreated(newUser);

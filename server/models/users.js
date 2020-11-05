@@ -48,8 +48,21 @@ class Users {
     }
   }
 
+
+  
   async findOneById(id) {
     const user = await this.sequelizeDb.Users.findOne({ where: { id } });
+    if (user) {
+      let final = user.toJSON();
+      final.data = ensureJson(final.data);
+      return final;
+    }
+  }
+
+  async findOneByPresalyticsUserId(presalyticsUserId) {
+    const user = await this.sequelizeDb.Users.findOne({
+      where: { presalyticsUserId: presalyticsUserId },
+    });
     if (user) {
       let final = user.toJSON();
       final.data = ensureJson(final.data);

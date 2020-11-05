@@ -23,5 +23,10 @@
   "scripts": {
     "fixlint": "npm run fixlint --prefix client && npm run fixlint --prefix server && prettier --write \"**/*.js\"",
     "lint": "npm run lint --prefix client && npm run lint --prefix server && prettier --check \"**/*.js\""
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.11.0",
+    "node-fetch": "^2.6.1"
   }
 }

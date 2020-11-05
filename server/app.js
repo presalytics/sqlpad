@@ -18,6 +18,8 @@ const authStrategies = require('./auth-strategies');
 const sessionlessAuth = require('./middleware/sessionless-auth.js');
 const ResponseUtils = require('./lib/response-utils.js');
 const expressPinoLogger = require('express-pino-logger');
+const tls = require('tls');
+const { host } = require('pg/lib/defaults');
 
 // This is a workaround till BigInt is fully supported by the standard
 // See https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type
@@ -29,6 +31,15 @@ const expressPinoLogger = require('express-pino-logger');
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
+
+var origCheckServerIdentity = tls.checkServerIdentity;
+
+tls.checkServerIdentity = function (hostname, cert) {
+  if (hostname.includes("localhost")) {
+    return undefined;
+  }
+  origCheckServerIdentity(hostname, cert);
+}
 
 /**
  * Create an express app using config

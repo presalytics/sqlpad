@@ -8,6 +8,7 @@ const ldap = require('./ldap');
 const local = require('./local');
 const oidc = require('./oidc');
 const saml = require('./saml');
+const presalytics = require('./jwt-presalytics');
 
 // The serializeUser/deserializeUser functions apply regardless of the strategy used.
 // Given a user object, extract the id to use for session
@@ -49,6 +50,7 @@ async function authStrategies(config, models) {
   local(config);
   oidc(config);
   saml(config);
+  presalytics(config);
 }
 
 module.exports = authStrategies;
